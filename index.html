@@ -3,543 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Horas Hombre - Construcción Civil</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Calculadora Horas Hombre - Construcción Civil | Magnolia y Asociados</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            900: '#0B132B',
-                            800: '#1C2541',
-                            700: '#2A365B',
-                            600: '#3A4B7C',
-                        },
-                        steel: {
-                            50: '#F4F6F9',
-                            100: '#E2E7F0',
-                            200: '#CBD5E1',
-                            600: '#475569',
-                            800: '#1E293B',
-                        },
-                        safety: {
-                            yellow: '#FFB800',
-                            orange: '#FF5722',
-                            amber: '#F59E0B',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        mono: ['Roboto Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #E2E7F0;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1C2541;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #FFB800;
+        body {
+            background-color: #d1d5db;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            min-height: 100vh;
         }
 
-        .bg-construction-pattern {
-            background-color: #F4F6F9;
-            background-image: 
-                radial-gradient(rgba(28, 37, 65, 0.08) 1.2px, transparent 1.2px),
-                linear-gradient(to right, rgba(28, 37, 65, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(28, 37, 65, 0.03) 1px, transparent 1px);
-            background-size: 24px 24px, 48px 48px, 48px 48px;
+        /* Marca de agua central */
+        .watermark-container {
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 500px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+            text-align: center;
+            user-select: none;
         }
 
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        .watermark-helmet {
+            font-size: 16rem;
+            color: #111827;
+            display: block;
+            margin: 0 auto;
         }
-        input[type="number"] {
-            -moz-appearance: textfield;
+
+        .watermark-text {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #111827;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: -10px;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border: 1px solid #9ca3af;
+        }
+
+        /* Input highlight */
+        input:focus {
+            outline: 2px solid #f59e0b;
+            border-color: #f59e0b;
         }
     </style>
 </head>
-<body class="bg-construction-pattern text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-safety-yellow selection:text-black">
+<body class="text-gray-900 pb-12">
 
-    <!-- Top Decorative Strip with Industrial Safety Stripes -->
-    <div class="h-3 w-full bg-gradient-to-r from-navy-900 via-safety-amber to-navy-900 sticky top-0 z-50 shadow-md"></div>
+    <!-- MARCA DE AGUA EN EL FONDO -->
+    <div class="watermark-container">
+        <i class="fa-solid fa-hard-hat watermark-helmet"></i>
+        <div class="watermark-text">MAGNOLIA Y ASOCIADOS</div>
+    </div>
 
-    <div class="max-w-3xl mx-auto px-4 py-6 w-full flex-grow">
-        
-        <!-- Application Header -->
-        <header class="text-center mb-8">
-            <div class="inline-flex items-center gap-2 bg-navy-800 text-white px-4 py-1.5 rounded-full mb-3 text-xs md:text-sm font-bold tracking-wider uppercase shadow-md">
-                <i class="fa-solid fa-helmet-safety text-safety-yellow"></i> Régimen de Construcción Civil
+    <div class="content-layer">
+        <!-- BARRA SUPERIOR NEGRA -->
+        <header class="bg-gray-900 text-white py-5 px-4 shadow-xl border-b-4 border-amber-500 mb-6">
+            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-500 text-gray-900 p-3 rounded-lg shadow-md">
+                        <i class="fa-solid fa-helmet-safety text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-extrabold tracking-wide text-white">MAGNOLIA Y ASOCIADOS</h1>
+                        <p class="text-xs text-amber-400 font-semibold tracking-wider uppercase">Calculadora de Horas Hombre - Régimen Construcción Civil</p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 px-3 py-1.5 rounded text-xs text-gray-300 border border-gray-700">
+                    <i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Uso Libre / Sin Registro
+                </div>
             </div>
-            <h1 class="text-3xl md:text-5xl font-black text-navy-900 tracking-tight mb-2">
-                Calculadora de <span class="text-transparent bg-clip-text bg-gradient-to-r from-navy-800 via-sky-800 to-navy-900">Horas Hombre</span>
-            </h1>
-            <p class="text-slate-600 text-sm md:text-base max-w-lg mx-auto font-medium">
-                Calcula tus horas normales, horas extras (60% y 100%) y domingos/feriados con alta legibilidad bajo luz de sol.
-            </p>
         </header>
 
-        <!-- Step 1: Category Selection Cards -->
-        <section class="mb-8">
-            <label class="block text-xs font-bold text-navy-800 uppercase tracking-widest mb-3 flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full bg-navy-800 text-white flex items-center justify-center font-black text-xs">1</span>
-                SELECCIONA TU CATEGORÍA
-            </label>
+        <main class="max-w-4xl mx-auto px-4">
+            
+            <!-- PASO 1: SELECCIONAR CATEGORÍA -->
+            <section class="card-custom rounded-2xl p-5 shadow-lg mb-6">
+                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <span class="bg-gray-900 text-amber-400 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">1</span>
+                    Selecciona tu Categoría de Trabajo
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button onclick="setCategory('operario', 89.30)" id="cat-operario" class="cat-btn border-2 border-gray-900 bg-gray-900 text-white rounded-xl p-4 text-center shadow-md transition-all">
+                        <div class="text-xs font-semibold uppercase text-amber-400">Categoría</div>
+                        <div class="text-lg font-black my-1">OPERARIO</div>
+                        <div class="text-sm font-bold bg-gray-800 py-1 px-2 rounded-lg text-white">S/. 89.30 / hr</div>
+                    </button>
+                    
+                    <button onclick="setCategory('oficial', 69.75)" id="cat-oficial" class="cat-btn border-2 border-gray-300 bg-white text-gray-800 rounded-xl p-4 text-center shadow-md transition-all hover:border-gray-900">
+                        <div class="text-xs font-semibold uppercase text-gray-500">Categoría</div>
+                        <div class="text-lg font-black my-1">OFICIAL</div>
+                        <div class="text-sm font-bold bg-gray-100 py-1 px-2 rounded-lg text-gray-800">S/. 69.75 / hr</div>
+                    </button>
+                    
+                    <button onclick="setCategory('peon', 62.80)" id="cat-peon" class="cat-btn border-2 border-gray-300 bg-white text-gray-800 rounded-xl p-4 text-center shadow-md transition-all hover:border-gray-900">
+                        <div class="text-xs font-semibold uppercase text-gray-500">Categoría</div>
+                        <div class="text-lg font-black my-1">PEÓN</div>
+                        <div class="text-sm font-bold bg-gray-100 py-1 px-2 rounded-lg text-gray-800">S/. 62.80 / hr</div>
+                    </button>
+                </div>
+            </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Operario -->
-                <button type="button" onclick="selectCategory('operario')" id="cat-operario" 
-                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+            <!-- PASO 2: INGRESO DE HORAS -->
+            <section class="card-custom rounded-2xl p-5 shadow-lg mb-6">
+                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <span class="bg-gray-900 text-amber-400 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">2</span>
+                    Ingresa las Horas Laboradas por Concepto
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Horas Normales -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div>
+                            <div class="font-black text-gray-900 text-base">HORAS NORMALES (100%)</div>
+                            <div class="text-xs text-gray-500">Jornada común de trabajo (Valor base: <span id="rate-normal-display">S/. 89.30</span>)</div>
                         </div>
-                        <span class="text-xs font-mono font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">BASE</span>
-                    </div>
-                    <span class="font-extrabold text-lg text-navy-900 block">Operario</span>
-                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Maestro / Especialista</p>
-                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
-                        <span class="text-xs text-slate-500">Hora Base:</span>
-                        <span class="text-base font-mono font-bold text-navy-800">S/. 89.30</span>
-                    </div>
-                </button>
-
-                <!-- Oficial -->
-                <button type="button" onclick="selectCategory('oficial')" id="cat-oficial" 
-                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-ruler-combined text-xl"></i>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <input type="number" id="h-normal" min="0" value="0" oninput="calculate()" class="w-24 text-center text-xl font-extrabold bg-gray-100 border border-gray-400 rounded-lg py-2 text-gray-900">
+                            <div class="flex gap-1">
+                                <button onclick="addHours('h-normal', 1)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+1h</button>
+                                <button onclick="addHours('h-normal', 8)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+8h</button>
+                            </div>
                         </div>
-                        <span class="text-xs font-mono font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">BASE</span>
                     </div>
-                    <span class="font-extrabold text-lg text-navy-900 block">Oficial</span>
-                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Ayudante Calificado</p>
-                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
-                        <span class="text-xs text-slate-500">Hora Base:</span>
-                        <span class="text-base font-mono font-bold text-navy-800">S/. 69.75</span>
-                    </div>
-                </button>
 
-                <!-- Peon -->
-                <button type="button" onclick="selectCategory('peon')" id="cat-peon" 
-                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-trowel text-xl"></i>
+                    <!-- Horas Extras 60% -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div>
+                            <div class="font-black text-gray-900 text-base">HORAS EXTRAS AL 60%</div>
+                            <div class="text-xs text-gray-500">Primeras horas extras (Valor: <span id="rate-60-display">S/. 142.88</span>)</div>
                         </div>
-                        <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">BASE</span>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <input type="number" id="h-60" min="0" value="0" oninput="calculate()" class="w-24 text-center text-xl font-extrabold bg-gray-100 border border-gray-400 rounded-lg py-2 text-gray-900">
+                            <div class="flex gap-1">
+                                <button onclick="addHours('h-60', 1)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+1h</button>
+                                <button onclick="addHours('h-60', 2)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+2h</button>
+                            </div>
+                        </div>
                     </div>
-                    <span class="font-extrabold text-lg text-navy-900 block">Peón</span>
-                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Auxiliar de Obra</p>
-                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
-                        <span class="text-xs text-slate-500">Hora Base:</span>
-                        <span class="text-base font-mono font-bold text-navy-800">S/. 62.80</span>
-                    </div>
-                </button>
-            </div>
-        </section>
 
-        <!-- Step 2: Hours Input Panel -->
-        <section class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-xl mb-8">
-            <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-200">
-                <label class="text-xs font-bold text-navy-800 uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-navy-800 text-white flex items-center justify-center font-black text-xs">2</span>
-                    INGRESA LAS HORAS TRABAJADAS
-                </label>
-                <button onclick="resetInputs()" class="text-xs font-semibold text-slate-600 hover:text-red-600 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-steel-50 border border-slate-200">
-                    <i class="fa-solid fa-rotate-left text-red-500"></i> Limpiar horas
-                </button>
-            </div>
+                    <!-- Horas Extras 100% -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div>
+                            <div class="font-black text-gray-900 text-base">HORAS EXTRAS AL 100%</div>
+                            <div class="text-xs text-gray-500">Horas extras adicionadas (Valor: <span id="rate-100-display">S/. 178.60</span>)</div>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <input type="number" id="h-100" min="0" value="0" oninput="calculate()" class="w-24 text-center text-xl font-extrabold bg-gray-100 border border-gray-400 rounded-lg py-2 text-gray-900">
+                            <div class="flex gap-1">
+                                <button onclick="addHours('h-100', 1)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+1h</button>
+                                <button onclick="addHours('h-100', 2)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+2h</button>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="space-y-5">
-                <!-- Concept 1: Horas Normales (100%) -->
-                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
-                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
-                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
-                            <i class="fa-regular fa-clock text-amber-600"></i> Horas Normales (100%)
-                        </span>
-                        <span class="text-xs font-mono text-navy-700 font-semibold" id="rateLabel-normal">
-                            S/. 89.30 / hr
-                        </span>
+                    <!-- Feriados / Domingos 100% -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div>
+                            <div class="font-black text-red-700 text-base">FERIADOS Y DOMINGOS (100%)</div>
+                            <div class="text-xs text-gray-500">Trabajo en día no laborable (Valor: <span id="rate-feriado-display">S/. 178.60</span>)</div>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <input type="number" id="h-feriado" min="0" value="0" oninput="calculate()" class="w-24 text-center text-xl font-extrabold bg-gray-100 border border-gray-400 rounded-lg py-2 text-gray-900">
+                            <div class="flex gap-1">
+                                <button onclick="addHours('h-feriado', 1)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+1h</button>
+                                <button onclick="addHours('h-feriado', 8)" class="bg-gray-800 hover:bg-gray-900 text-amber-400 text-xs font-bold py-2.5 px-2.5 rounded-lg">+8h</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="stepInput('hrsNormal', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
-                        <input type="number" id="hrsNormal" min="0" step="0.5" value="8" oninput="calculateAll()" 
-                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-navy-800 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
-                        <button onclick="stepInput('hrsNormal', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
+                </div>
+            </section>
+
+            <!-- RESUMEN Y TOTAL -->
+            <section class="bg-gray-900 text-white rounded-2xl p-6 shadow-2xl border-t-4 border-amber-500">
+                <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Resumen de Liquidación</span>
+                    <span id="display-cat-name" class="bg-amber-500 text-gray-900 font-extrabold text-xs px-2.5 py-1 rounded">OPERARIO</span>
+                </div>
+
+                <div class="space-y-2 text-sm text-gray-300 mb-6">
+                    <div class="flex justify-between">
+                        <span>Horas Normales:</span>
+                        <span class="font-mono font-bold text-white" id="sub-normal">S/. 0.00</span>
                     </div>
-                    <div class="grid grid-cols-4 gap-2 mt-3">
-                        <button onclick="addHours('hrsNormal', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
-                        <button onclick="addHours('hrsNormal', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
-                        <button onclick="addHours('hrsNormal', 8)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+8h</button>
-                        <button onclick="setHours('hrsNormal', 48)" class="py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-xs font-extrabold text-amber-800 border border-amber-300">Semana (48h)</button>
+                    <div class="flex justify-between">
+                        <span>Horas Extras 60%:</span>
+                        <span class="font-mono font-bold text-white" id="sub-60">S/. 0.00</span>
                     </div>
-                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
-                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-normal">S/. 714.40</strong>
+                    <div class="flex justify-between">
+                        <span>Horas Extras 100%:</span>
+                        <span class="font-mono font-bold text-white" id="sub-100">S/. 0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Feriados y Domingos:</span>
+                        <span class="font-mono font-bold text-white" id="sub-feriado">S/. 0.00</span>
                     </div>
                 </div>
 
-                <!-- Concept 2: Horas Extras 60% -->
-                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
-                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
-                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
-                            <i class="fa-solid fa-business-time text-safety-orange"></i> Horas Extras al 60%
-                            <span class="text-[10px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded font-mono font-bold">+60%</span>
-                        </span>
-                        <span class="text-xs font-mono text-orange-700 font-semibold" id="rateLabel-extra60">
-                            S/. 142.88 / hr
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="stepInput('hrsExtra60', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
-                        <input type="number" id="hrsExtra60" min="0" step="0.5" value="0" oninput="calculateAll()" 
-                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-safety-orange text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
-                        <button onclick="stepInput('hrsExtra60', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 mt-3">
-                        <button onclick="addHours('hrsExtra60', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
-                        <button onclick="addHours('hrsExtra60', 2)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+2h</button>
-                        <button onclick="addHours('hrsExtra60', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
-                    </div>
-                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
-                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-extra60">S/. 0.00</strong>
-                    </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center mb-6">
+                    <div class="text-xs uppercase text-gray-400 font-bold mb-1">Monto Total a Cobrar</div>
+                    <div class="text-4xl sm:text-5xl font-black text-amber-400 font-mono tracking-tight" id="total-display">S/. 0.00</div>
                 </div>
 
-                <!-- Concept 3: Horas Extras 100% -->
-                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
-                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
-                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
-                            <i class="fa-solid fa-stopwatch text-red-600"></i> Horas Extras al 100%
-                            <span class="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded font-mono font-bold">+100%</span>
-                        </span>
-                        <span class="text-xs font-mono text-red-700 font-semibold" id="rateLabel-extra100">
-                            S/. 178.60 / hr
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="stepInput('hrsExtra100', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
-                        <input type="number" id="hrsExtra100" min="0" step="0.5" value="0" oninput="calculateAll()" 
-                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-red-600 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
-                        <button onclick="stepInput('hrsExtra100', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 mt-3">
-                        <button onclick="addHours('hrsExtra100', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
-                        <button onclick="addHours('hrsExtra100', 2)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+2h</button>
-                        <button onclick="addHours('hrsExtra100', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
-                    </div>
-                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
-                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-extra100">S/. 0.00</strong>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="copyWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Copiar para WhatsApp
+                    </button>
+                    <button onclick="resetAll()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 border border-gray-700 transition-all">
+                        <i class="fa-solid fa-rotate-right"></i> Limpiar Todo
+                    </button>
                 </div>
-
-                <!-- Concept 4: Domingos y Feriados 100% -->
-                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
-                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
-                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-day text-purple-700"></i> Feriados / Domingos (100%)
-                            <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">Doble</span>
-                        </span>
-                        <span class="text-xs font-mono text-purple-700 font-semibold" id="rateLabel-feriado">
-                            S/. 178.60 / hr
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="stepInput('hrsFeriado', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
-                        <input type="number" id="hrsFeriado" min="0" step="0.5" value="0" oninput="calculateAll()" 
-                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-purple-600 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
-                        <button onclick="stepInput('hrsFeriado', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 mt-3">
-                        <button onclick="addHours('hrsFeriado', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
-                        <button onclick="addHours('hrsFeriado', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
-                        <button onclick="addHours('hrsFeriado', 8)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+8h</button>
-                    </div>
-                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
-                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-feriado">S/. 0.00</strong>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Step 3: Total Summary Card -->
-        <section class="bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 border-2 border-navy-700 rounded-2xl p-6 shadow-2xl text-white">
-            <div class="flex items-center justify-between pb-4 border-b border-navy-700 mb-4">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-calculator text-safety-yellow text-xl"></i>
-                    <h3 class="font-extrabold text-white text-lg">Resumen General</h3>
-                </div>
-                <span class="text-xs text-slate-300 font-mono bg-navy-700 px-2 py-1 rounded">AUTOMÁTICO</span>
-            </div>
-
-            <!-- Breakdown -->
-            <div class="bg-navy-900/90 rounded-xl p-4 border border-navy-700 mb-5 font-mono text-xs space-y-2.5">
-                <div class="flex justify-between items-center text-slate-300">
-                    <span>Categoría:</span>
-                    <strong id="summaryCategory" class="text-safety-yellow font-sans font-bold text-sm">OPERARIO</strong>
-                </div>
-                <div class="border-t border-navy-800 pt-2 flex justify-between items-center text-slate-300">
-                    <span>• H. Normales (<span id="sum-hrs-normal">8</span>h):</span>
-                    <span id="sum-val-normal" class="font-bold text-white">S/. 714.40</span>
-                </div>
-                <div class="flex justify-between items-center text-slate-300">
-                    <span>• H. Extras 60% (<span id="sum-hrs-extra60">0</span>h):</span>
-                    <span id="sum-val-extra60" class="font-bold text-white">S/. 0.00</span>
-                </div>
-                <div class="flex justify-between items-center text-slate-300">
-                    <span>• H. Extras 100% (<span id="sum-hrs-extra100">0</span>h):</span>
-                    <span id="sum-val-extra100" class="font-bold text-white">S/. 0.00</span>
-                </div>
-                <div class="flex justify-between items-center text-slate-300">
-                    <span>• Feriados/Domingos (<span id="sum-hrs-feriado">0</span>h):</span>
-                    <span id="sum-val-feriado" class="font-bold text-white">S/. 0.00</span>
-                </div>
-            </div>
-
-            <!-- Grand Total Badge -->
-            <div class="bg-black/40 rounded-xl p-5 border border-safety-yellow/40 text-center mb-5 shadow-inner">
-                <span class="text-xs font-bold text-slate-300 uppercase tracking-widest block mb-1">
-                    TOTAL GENERAL A COBRAR EN SOLES
-                </span>
-                <div class="text-4xl md:text-5xl font-black font-mono text-safety-yellow tracking-tight my-1">
-                    S/. <span id="grandTotal">714.40</span>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button onclick="copyToClipboard()" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                    Copiar resumen para WhatsApp
-                </button>
-
-                <button onclick="window.print()" class="w-full py-3.5 px-4 rounded-xl bg-navy-700 hover:bg-navy-600 border border-navy-600 text-slate-100 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95">
-                    <i class="fa-solid fa-print"></i> Imprimir / Guardar PDF
-                </button>
-            </div>
-        </section>
-
+            </section>
+        </main>
     </div>
-
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-navy-900 text-white border border-safety-yellow px-5 py-3.5 rounded-xl shadow-2xl font-bold text-sm flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 z-50">
-        <i class="fa-solid fa-circle-check text-safety-yellow text-base"></i>
-        <span id="toastMsg">Notificación</span>
-    </div>
-
-    <!-- Footer -->
-    <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-200 bg-white mt-8">
-        <p>Calculadora de Horas Hombre • Régimen de Construcción Civil • Sin registro de datos</p>
-    </footer>
 
     <script>
-        // State variables
-        let currentCategory = 'operario';
+        let selectedCategory = 'operario';
+        let baseRate = 89.30;
 
-        // Base rates
-        const baseRates = {
-            'operario': 89.30,
-            'oficial': 69.75,
-            'peon': 62.80
-        };
+        function setCategory(cat, rate) {
+            selectedCategory = cat;
+            baseRate = rate;
 
-        const categoryNames = {
-            'operario': 'OPERARIO',
-            'oficial': 'OFICIAL',
-            'peon': 'PEÓN'
-        };
-
-        // Initialize on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            selectCategory('operario');
-        });
-
-        // Category Switcher
-        function selectCategory(catKey) {
-            currentCategory = catKey;
-
-            // Update UI Card Highlighting
-            Object.keys(baseRates).forEach(key => {
-                const card = document.getElementById(`cat-${key}`);
-                if (key === catKey) {
-                    card.classList.add('border-navy-800', 'ring-2', 'ring-navy-800', 'bg-slate-50', 'scale-[1.02]');
-                    card.classList.remove('border-slate-200', 'bg-white');
-                } else {
-                    card.classList.remove('border-navy-800', 'ring-2', 'ring-navy-800', 'bg-slate-50', 'scale-[1.02]');
-                    card.classList.add('border-slate-200', 'bg-white');
-                }
+            // Actualizar botones UI
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn border-2 border-gray-300 bg-white text-gray-800 rounded-xl p-4 text-center shadow-md transition-all hover:border-gray-900";
             });
 
-            // Update Rates Labels
-            const base = baseRates[catKey];
-            document.getElementById('rateLabel-normal').innerText = `S/. ${base.toFixed(2)} / hr`;
-            document.getElementById('rateLabel-extra60').innerText = `S/. ${(base * 1.60).toFixed(2)} / hr`;
-            document.getElementById('rateLabel-extra100').innerText = `S/. ${(base * 2.00).toFixed(2)} / hr`;
-            document.getElementById('rateLabel-feriado').innerText = `S/. ${(base * 2.00).toFixed(2)} / hr`;
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            activeBtn.className = "cat-btn border-2 border-gray-900 bg-gray-900 text-white rounded-xl p-4 text-center shadow-md transition-all";
 
-            calculateAll();
+            // Nombre categoría resumen
+            document.getElementById('display-cat-name').innerText = cat.toUpperCase();
+
+            updateRateDisplays();
+            calculate();
         }
 
-        // Stepper Function (+ / -)
-        function stepInput(inputId, step) {
+        function updateRateDisplays() {
+            document.getElementById('rate-normal-display').innerText = `S/. ${baseRate.toFixed(2)}`;
+            document.getElementById('rate-60-display').innerText = `S/. ${(baseRate * 1.60).toFixed(2)}`;
+            document.getElementById('rate-100-display').innerText = `S/. ${(baseRate * 2.00).toFixed(2)}`;
+            document.getElementById('rate-feriado-display').innerText = `S/. ${(baseRate * 2.00).toFixed(2)}`;
+        }
+
+        function addHours(inputId, amount) {
             const input = document.getElementById(inputId);
             let val = parseFloat(input.value) || 0;
-            val = Math.max(0, val + step);
-            input.value = val;
-            calculateAll();
+            input.value = val + amount;
+            calculate();
         }
 
-        // Quick add hours
-        function addHours(inputId, hrs) {
-            const input = document.getElementById(inputId);
-            let val = parseFloat(input.value) || 0;
-            input.value = val + hrs;
-            calculateAll();
-        }
-
-        // Set hours directly
-        function setHours(inputId, hrs) {
-            document.getElementById(inputId).value = hrs;
-            calculateAll();
-        }
-
-        // Reset Inputs
-        function resetInputs() {
-            document.getElementById('hrsNormal').value = 0;
-            document.getElementById('hrsExtra60').value = 0;
-            document.getElementById('hrsExtra100').value = 0;
-            document.getElementById('hrsFeriado').value = 0;
-            calculateAll();
-            showToast('Se limpiaron todas las horas');
-        }
-
-        // Helper to safely get value
-        function getNum(id) {
-            const val = parseFloat(document.getElementById(id).value);
-            return (isNaN(val) || val < 0) ? 0 : val;
-        }
-
-        // Calculation Engine
-        function calculateAll() {
-            const baseRate = baseRates[currentCategory];
-
-            // Get hours
-            const hNormal = getNum('hrsNormal');
-            const hExtra60 = getNum('hrsExtra60');
-            const hExtra100 = getNum('hrsExtra100');
-            const hFeriado = getNum('hrsFeriado');
-
-            // Rates multipliers
-            const rateNormal = baseRate;
-            const rateExtra60 = baseRate * 1.60;
-            const rateExtra100 = baseRate * 2.00;
-            const rateFeriado = baseRate * 2.00;
-
-            // Calculate subtotals
-            const subNormal = hNormal * rateNormal;
-            const subExtra60 = hExtra60 * rateExtra60;
-            const subExtra100 = hExtra100 * rateExtra100;
-            const subFeriado = hFeriado * rateFeriado;
-
-            const grandTotal = subNormal + subExtra60 + subExtra100 + subFeriado;
-
-            // Update Subtotal Displays
-            document.getElementById('subtotal-normal').innerText = `S/. ${subNormal.toFixed(2)}`;
-            document.getElementById('subtotal-extra60').innerText = `S/. ${subExtra60.toFixed(2)}`;
-            document.getElementById('subtotal-extra100').innerText = `S/. ${subExtra100.toFixed(2)}`;
-            document.getElementById('subtotal-feriado').innerText = `S/. ${subFeriado.toFixed(2)}`;
-
-            // Update Breakdown Panel
-            document.getElementById('summaryCategory').innerText = categoryNames[currentCategory];
-            
-            document.getElementById('sum-hrs-normal').innerText = hNormal;
-            document.getElementById('sum-val-normal').innerText = `S/. ${subNormal.toFixed(2)}`;
-
-            document.getElementById('sum-hrs-extra60').innerText = hExtra60;
-            document.getElementById('sum-val-extra60').innerText = `S/. ${subExtra60.toFixed(2)}`;
-
-            document.getElementById('sum-hrs-extra100').innerText = hExtra100;
-            document.getElementById('sum-val-extra100').innerText = `S/. ${subExtra100.toFixed(2)}`;
-
-            document.getElementById('sum-hrs-feriado').innerText = hFeriado;
-            document.getElementById('sum-val-feriado').innerText = `S/. ${subFeriado.toFixed(2)}`;
-
-            // Update Grand Total
-            document.getElementById('grandTotal').innerText = grandTotal.toLocaleString('es-PE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-        }
-
-        // Copy Summary to WhatsApp
-        function copyToClipboard() {
-            const baseRate = baseRates[currentCategory];
-            const hNormal = getNum('hrsNormal');
-            const hExtra60 = getNum('hrsExtra60');
-            const hExtra100 = getNum('hrsExtra100');
-            const hFeriado = getNum('hrsFeriado');
+        function calculate() {
+            const hNormal = parseFloat(document.getElementById('h-normal').value) || 0;
+            const h60 = parseFloat(document.getElementById('h-60').value) || 0;
+            const h100 = parseFloat(document.getElementById('h-100').value) || 0;
+            const hFeriado = parseFloat(document.getElementById('h-feriado').value) || 0;
 
             const subNormal = hNormal * baseRate;
-            const subExtra60 = hExtra60 * (baseRate * 1.60);
-            const subExtra100 = hExtra100 * (baseRate * 2.00);
+            const sub60 = h60 * (baseRate * 1.60);
+            const sub100 = h100 * (baseRate * 2.00);
             const subFeriado = hFeriado * (baseRate * 2.00);
 
-            const grandTotal = subNormal + subExtra60 + subExtra100 + subFeriado;
+            const total = subNormal + sub60 + sub100 + subFeriado;
 
-            let msg = `🏗️ *REPORTES DE HORAS HOMBRE*\n`;
-            msg += `📋 *Categoría:* ${categoryNames[currentCategory]}\n`;
-            msg += `-----------------------------------\n`;
-            if (hNormal > 0) msg += `⏱️ *H. Normales:* ${hNormal}h ➔ S/. ${subNormal.toFixed(2)}\n`;
-            if (hExtra60 > 0) msg += `⚡ *H. Extras 60%:* ${hExtra60}h ➔ S/. ${subExtra60.toFixed(2)}\n`;
-            if (hExtra100 > 0) msg += `🔥 *H. Extras 100%:* ${hExtra100}h ➔ S/. ${subExtra100.toFixed(2)}\n`;
-            if (hFeriado > 0) msg += `📅 *Feriado/Domingo:* ${hFeriado}h ➔ S/. ${subFeriado.toFixed(2)}\n`;
-            msg += `-----------------------------------\n`;
-            msg += `💰 *TOTAL GENERAL:* *S/. ${grandTotal.toFixed(2)}*`;
-
-            const tempArea = document.createElement('textarea');
-            tempArea.value = msg;
-            document.body.appendChild(tempArea);
-            tempArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempArea);
-
-            showToast('¡Resumen copiado para WhatsApp!');
+            document.getElementById('sub-normal').innerText = `S/. ${subNormal.toFixed(2)}`;
+            document.getElementById('sub-60').innerText = `S/. ${sub60.toFixed(2)}`;
+            document.getElementById('sub-100').innerText = `S/. ${sub100.toFixed(2)}`;
+            document.getElementById('sub-feriado').innerText = `S/. ${subFeriado.toFixed(2)}`;
+            document.getElementById('total-display').innerText = `S/. ${total.toFixed(2)}`;
         }
 
-        // Notification Toast
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            
-            toastMsg.innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
+        function resetAll() {
+            document.getElementById('h-normal').value = 0;
+            document.getElementById('h-60').value = 0;
+            document.getElementById('h-100').value = 0;
+            document.getElementById('h-feriado').value = 0;
+            calculate();
         }
+
+        function copyWhatsApp() {
+            const total = document.getElementById('total-display').innerText;
+            const hNormal = document.getElementById('h-normal').value || 0;
+            const h60 = document.getElementById('h-60').value || 0;
+            const h100 = document.getElementById('h-100').value || 0;
+            const hFeriado = document.getElementById('h-feriado').value || 0;
+
+            const text = `*MAGNOLIA Y ASOCIADOS*\n` +
+                         `*REPORTE DE HORAS LABORADAS*\n` +
+                         `Categoría: ${selectedCategory.toUpperCase()}\n` +
+                         `-----------------------------\n` +
+                         `• H. Normales: ${hNormal} hrs\n` +
+                         `• H. Extra 60%: ${h60} hrs\n` +
+                         `• H. Extra 100%: ${h100} hrs\n` +
+                         `• Feriados/Domingos: ${hFeriado} hrs\n` +
+                         `-----------------------------\n` +
+                         `*TOTAL A COBRAR: ${total}*`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('¡Reporte copiado con éxito! Ya puedes pegarlo en WhatsApp.');
+            }).catch(err => {
+                alert('Error al copiar el reporte.');
+            });
+        }
+
+        // Inicializar
+        updateRateDisplays();
+        calculate();
     </script>
 </body>
 </html>
