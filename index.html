@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Horas Hombre - Construcción Civil</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0B132B',
+                            800: '#1C2541',
+                            700: '#2A365B',
+                            600: '#3A4B7C',
+                        },
+                        steel: {
+                            50: '#F4F6F9',
+                            100: '#E2E7F0',
+                            200: '#CBD5E1',
+                            600: '#475569',
+                            800: '#1E293B',
+                        },
+                        safety: {
+                            yellow: '#FFB800',
+                            orange: '#FF5722',
+                            amber: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E2E7F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1C2541;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFB800;
+        }
+
+        .bg-construction-pattern {
+            background-color: #F4F6F9;
+            background-image: 
+                radial-gradient(rgba(28, 37, 65, 0.08) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(28, 37, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(28, 37, 65, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px, 48px 48px, 48px 48px;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-construction-pattern text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-safety-yellow selection:text-black">
+
+    <!-- Top Decorative Strip with Industrial Safety Stripes -->
+    <div class="h-3 w-full bg-gradient-to-r from-navy-900 via-safety-amber to-navy-900 sticky top-0 z-50 shadow-md"></div>
+
+    <div class="max-w-3xl mx-auto px-4 py-6 w-full flex-grow">
+        
+        <!-- Application Header -->
+        <header class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 bg-navy-800 text-white px-4 py-1.5 rounded-full mb-3 text-xs md:text-sm font-bold tracking-wider uppercase shadow-md">
+                <i class="fa-solid fa-helmet-safety text-safety-yellow"></i> Régimen de Construcción Civil
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black text-navy-900 tracking-tight mb-2">
+                Calculadora de <span class="text-transparent bg-clip-text bg-gradient-to-r from-navy-800 via-sky-800 to-navy-900">Horas Hombre</span>
+            </h1>
+            <p class="text-slate-600 text-sm md:text-base max-w-lg mx-auto font-medium">
+                Calcula tus horas normales, horas extras (60% y 100%) y domingos/feriados con alta legibilidad bajo luz de sol.
+            </p>
+        </header>
+
+        <!-- Step 1: Category Selection Cards -->
+        <section class="mb-8">
+            <label class="block text-xs font-bold text-navy-800 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-navy-800 text-white flex items-center justify-center font-black text-xs">1</span>
+                SELECCIONA TU CATEGORÍA
+            </label>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Operario -->
+                <button type="button" onclick="selectCategory('operario')" id="cat-operario" 
+                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+                        </div>
+                        <span class="text-xs font-mono font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">BASE</span>
+                    </div>
+                    <span class="font-extrabold text-lg text-navy-900 block">Operario</span>
+                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Maestro / Especialista</p>
+                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
+                        <span class="text-xs text-slate-500">Hora Base:</span>
+                        <span class="text-base font-mono font-bold text-navy-800">S/. 89.30</span>
+                    </div>
+                </button>
+
+                <!-- Oficial -->
+                <button type="button" onclick="selectCategory('oficial')" id="cat-oficial" 
+                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-ruler-combined text-xl"></i>
+                        </div>
+                        <span class="text-xs font-mono font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">BASE</span>
+                    </div>
+                    <span class="font-extrabold text-lg text-navy-900 block">Oficial</span>
+                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Ayudante Calificado</p>
+                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
+                        <span class="text-xs text-slate-500">Hora Base:</span>
+                        <span class="text-base font-mono font-bold text-navy-800">S/. 69.75</span>
+                    </div>
+                </button>
+
+                <!-- Peon -->
+                <button type="button" onclick="selectCategory('peon')" id="cat-peon" 
+                    class="category-card relative p-5 rounded-2xl border-2 border-slate-200 bg-white hover:border-navy-600 transition-all text-left group cursor-pointer shadow-md hover:shadow-xl active:scale-95">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-trowel text-xl"></i>
+                        </div>
+                        <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">BASE</span>
+                    </div>
+                    <span class="font-extrabold text-lg text-navy-900 block">Peón</span>
+                    <p class="text-xs text-slate-500 mt-0.5 mb-2">Auxiliar de Obra</p>
+                    <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
+                        <span class="text-xs text-slate-500">Hora Base:</span>
+                        <span class="text-base font-mono font-bold text-navy-800">S/. 62.80</span>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Hours Input Panel -->
+        <section class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-xl mb-8">
+            <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-200">
+                <label class="text-xs font-bold text-navy-800 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-full bg-navy-800 text-white flex items-center justify-center font-black text-xs">2</span>
+                    INGRESA LAS HORAS TRABAJADAS
+                </label>
+                <button onclick="resetInputs()" class="text-xs font-semibold text-slate-600 hover:text-red-600 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-steel-50 border border-slate-200">
+                    <i class="fa-solid fa-rotate-left text-red-500"></i> Limpiar horas
+                </button>
+            </div>
+
+            <div class="space-y-5">
+                <!-- Concept 1: Horas Normales (100%) -->
+                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
+                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
+                            <i class="fa-regular fa-clock text-amber-600"></i> Horas Normales (100%)
+                        </span>
+                        <span class="text-xs font-mono text-navy-700 font-semibold" id="rateLabel-normal">
+                            S/. 89.30 / hr
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="stepInput('hrsNormal', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
+                        <input type="number" id="hrsNormal" min="0" step="0.5" value="8" oninput="calculateAll()" 
+                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-navy-800 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
+                        <button onclick="stepInput('hrsNormal', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 mt-3">
+                        <button onclick="addHours('hrsNormal', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
+                        <button onclick="addHours('hrsNormal', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
+                        <button onclick="addHours('hrsNormal', 8)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+8h</button>
+                        <button onclick="setHours('hrsNormal', 48)" class="py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-xs font-extrabold text-amber-800 border border-amber-300">Semana (48h)</button>
+                    </div>
+                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
+                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-normal">S/. 714.40</strong>
+                    </div>
+                </div>
+
+                <!-- Concept 2: Horas Extras 60% -->
+                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
+                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
+                            <i class="fa-solid fa-business-time text-safety-orange"></i> Horas Extras al 60%
+                            <span class="text-[10px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded font-mono font-bold">+60%</span>
+                        </span>
+                        <span class="text-xs font-mono text-orange-700 font-semibold" id="rateLabel-extra60">
+                            S/. 142.88 / hr
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="stepInput('hrsExtra60', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
+                        <input type="number" id="hrsExtra60" min="0" step="0.5" value="0" oninput="calculateAll()" 
+                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-safety-orange text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
+                        <button onclick="stepInput('hrsExtra60', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mt-3">
+                        <button onclick="addHours('hrsExtra60', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
+                        <button onclick="addHours('hrsExtra60', 2)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+2h</button>
+                        <button onclick="addHours('hrsExtra60', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
+                    </div>
+                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
+                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-extra60">S/. 0.00</strong>
+                    </div>
+                </div>
+
+                <!-- Concept 3: Horas Extras 100% -->
+                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
+                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
+                            <i class="fa-solid fa-stopwatch text-red-600"></i> Horas Extras al 100%
+                            <span class="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded font-mono font-bold">+100%</span>
+                        </span>
+                        <span class="text-xs font-mono text-red-700 font-semibold" id="rateLabel-extra100">
+                            S/. 178.60 / hr
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="stepInput('hrsExtra100', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
+                        <input type="number" id="hrsExtra100" min="0" step="0.5" value="0" oninput="calculateAll()" 
+                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-red-600 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
+                        <button onclick="stepInput('hrsExtra100', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mt-3">
+                        <button onclick="addHours('hrsExtra100', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
+                        <button onclick="addHours('hrsExtra100', 2)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+2h</button>
+                        <button onclick="addHours('hrsExtra100', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
+                    </div>
+                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
+                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-extra100">S/. 0.00</strong>
+                    </div>
+                </div>
+
+                <!-- Concept 4: Domingos y Feriados 100% -->
+                <div class="bg-steel-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex flex-wrap justify-between items-center gap-1 mb-2">
+                        <span class="text-sm font-bold text-navy-900 flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-day text-purple-700"></i> Feriados / Domingos (100%)
+                            <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">Doble</span>
+                        </span>
+                        <span class="text-xs font-mono text-purple-700 font-semibold" id="rateLabel-feriado">
+                            S/. 178.60 / hr
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="stepInput('hrsFeriado', -1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">-</button>
+                        <input type="number" id="hrsFeriado" min="0" step="0.5" value="0" oninput="calculateAll()" 
+                            class="w-full text-center bg-white border-2 border-slate-300 focus:border-purple-600 text-navy-900 font-mono text-2xl font-black py-2 rounded-xl focus:outline-none h-12 shadow-inner">
+                        <button onclick="stepInput('hrsFeriado', 1)" class="w-12 h-12 rounded-xl bg-navy-800 hover:bg-navy-700 active:scale-95 text-white font-black text-xl flex items-center justify-center transition-all shadow-sm">+</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mt-3">
+                        <button onclick="addHours('hrsFeriado', 1)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+1h</button>
+                        <button onclick="addHours('hrsFeriado', 4)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+4h</button>
+                        <button onclick="addHours('hrsFeriado', 8)" class="py-1.5 rounded-lg bg-white hover:bg-slate-100 text-xs font-bold text-navy-800 border border-slate-200 shadow-sm">+8h</button>
+                    </div>
+                    <div class="mt-2 text-right font-mono text-xs text-slate-500">
+                        Subtotal: <strong class="text-navy-900 text-sm" id="subtotal-feriado">S/. 0.00</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Total Summary Card -->
+        <section class="bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 border-2 border-navy-700 rounded-2xl p-6 shadow-2xl text-white">
+            <div class="flex items-center justify-between pb-4 border-b border-navy-700 mb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-safety-yellow text-xl"></i>
+                    <h3 class="font-extrabold text-white text-lg">Resumen General</h3>
+                </div>
+                <span class="text-xs text-slate-300 font-mono bg-navy-700 px-2 py-1 rounded">AUTOMÁTICO</span>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="bg-navy-900/90 rounded-xl p-4 border border-navy-700 mb-5 font-mono text-xs space-y-2.5">
+                <div class="flex justify-between items-center text-slate-300">
+                    <span>Categoría:</span>
+                    <strong id="summaryCategory" class="text-safety-yellow font-sans font-bold text-sm">OPERARIO</strong>
+                </div>
+                <div class="border-t border-navy-800 pt-2 flex justify-between items-center text-slate-300">
+                    <span>• H. Normales (<span id="sum-hrs-normal">8</span>h):</span>
+                    <span id="sum-val-normal" class="font-bold text-white">S/. 714.40</span>
+                </div>
+                <div class="flex justify-between items-center text-slate-300">
+                    <span>• H. Extras 60% (<span id="sum-hrs-extra60">0</span>h):</span>
+                    <span id="sum-val-extra60" class="font-bold text-white">S/. 0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-slate-300">
+                    <span>• H. Extras 100% (<span id="sum-hrs-extra100">0</span>h):</span>
+                    <span id="sum-val-extra100" class="font-bold text-white">S/. 0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-slate-300">
+                    <span>• Feriados/Domingos (<span id="sum-hrs-feriado">0</span>h):</span>
+                    <span id="sum-val-feriado" class="font-bold text-white">S/. 0.00</span>
+                </div>
+            </div>
+
+            <!-- Grand Total Badge -->
+            <div class="bg-black/40 rounded-xl p-5 border border-safety-yellow/40 text-center mb-5 shadow-inner">
+                <span class="text-xs font-bold text-slate-300 uppercase tracking-widest block mb-1">
+                    TOTAL GENERAL A COBRAR EN SOLES
+                </span>
+                <div class="text-4xl md:text-5xl font-black font-mono text-safety-yellow tracking-tight my-1">
+                    S/. <span id="grandTotal">714.40</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onclick="copyToClipboard()" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    Copiar resumen para WhatsApp
+                </button>
+
+                <button onclick="window.print()" class="w-full py-3.5 px-4 rounded-xl bg-navy-700 hover:bg-navy-600 border border-navy-600 text-slate-100 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95">
+                    <i class="fa-solid fa-print"></i> Imprimir / Guardar PDF
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-navy-900 text-white border border-safety-yellow px-5 py-3.5 rounded-xl shadow-2xl font-bold text-sm flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 z-50">
+        <i class="fa-solid fa-circle-check text-safety-yellow text-base"></i>
+        <span id="toastMsg">Notificación</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-200 bg-white mt-8">
+        <p>Calculadora de Horas Hombre • Régimen de Construcción Civil • Sin registro de datos</p>
+    </footer>
+
+    <script>
+        // State variables
+        let currentCategory = 'operario';
+
+        // Base rates
+        const baseRates = {
+            'operario': 89.30,
+            'oficial': 69.75,
+            'peon': 62.80
+        };
+
+        const categoryNames = {
+            'operario': 'OPERARIO',
+            'oficial': 'OFICIAL',
+            'peon': 'PEÓN'
+        };
+
+        // Initialize on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            selectCategory('operario');
+        });
+
+        // Category Switcher
+        function selectCategory(catKey) {
+            currentCategory = catKey;
+
+            // Update UI Card Highlighting
+            Object.keys(baseRates).forEach(key => {
+                const card = document.getElementById(`cat-${key}`);
+                if (key === catKey) {
+                    card.classList.add('border-navy-800', 'ring-2', 'ring-navy-800', 'bg-slate-50', 'scale-[1.02]');
+                    card.classList.remove('border-slate-200', 'bg-white');
+                } else {
+                    card.classList.remove('border-navy-800', 'ring-2', 'ring-navy-800', 'bg-slate-50', 'scale-[1.02]');
+                    card.classList.add('border-slate-200', 'bg-white');
+                }
+            });
+
+            // Update Rates Labels
+            const base = baseRates[catKey];
+            document.getElementById('rateLabel-normal').innerText = `S/. ${base.toFixed(2)} / hr`;
+            document.getElementById('rateLabel-extra60').innerText = `S/. ${(base * 1.60).toFixed(2)} / hr`;
+            document.getElementById('rateLabel-extra100').innerText = `S/. ${(base * 2.00).toFixed(2)} / hr`;
+            document.getElementById('rateLabel-feriado').innerText = `S/. ${(base * 2.00).toFixed(2)} / hr`;
+
+            calculateAll();
+        }
+
+        // Stepper Function (+ / -)
+        function stepInput(inputId, step) {
+            const input = document.getElementById(inputId);
+            let val = parseFloat(input.value) || 0;
+            val = Math.max(0, val + step);
+            input.value = val;
+            calculateAll();
+        }
+
+        // Quick add hours
+        function addHours(inputId, hrs) {
+            const input = document.getElementById(inputId);
+            let val = parseFloat(input.value) || 0;
+            input.value = val + hrs;
+            calculateAll();
+        }
+
+        // Set hours directly
+        function setHours(inputId, hrs) {
+            document.getElementById(inputId).value = hrs;
+            calculateAll();
+        }
+
+        // Reset Inputs
+        function resetInputs() {
+            document.getElementById('hrsNormal').value = 0;
+            document.getElementById('hrsExtra60').value = 0;
+            document.getElementById('hrsExtra100').value = 0;
+            document.getElementById('hrsFeriado').value = 0;
+            calculateAll();
+            showToast('Se limpiaron todas las horas');
+        }
+
+        // Helper to safely get value
+        function getNum(id) {
+            const val = parseFloat(document.getElementById(id).value);
+            return (isNaN(val) || val < 0) ? 0 : val;
+        }
+
+        // Calculation Engine
+        function calculateAll() {
+            const baseRate = baseRates[currentCategory];
+
+            // Get hours
+            const hNormal = getNum('hrsNormal');
+            const hExtra60 = getNum('hrsExtra60');
+            const hExtra100 = getNum('hrsExtra100');
+            const hFeriado = getNum('hrsFeriado');
+
+            // Rates multipliers
+            const rateNormal = baseRate;
+            const rateExtra60 = baseRate * 1.60;
+            const rateExtra100 = baseRate * 2.00;
+            const rateFeriado = baseRate * 2.00;
+
+            // Calculate subtotals
+            const subNormal = hNormal * rateNormal;
+            const subExtra60 = hExtra60 * rateExtra60;
+            const subExtra100 = hExtra100 * rateExtra100;
+            const subFeriado = hFeriado * rateFeriado;
+
+            const grandTotal = subNormal + subExtra60 + subExtra100 + subFeriado;
+
+            // Update Subtotal Displays
+            document.getElementById('subtotal-normal').innerText = `S/. ${subNormal.toFixed(2)}`;
+            document.getElementById('subtotal-extra60').innerText = `S/. ${subExtra60.toFixed(2)}`;
+            document.getElementById('subtotal-extra100').innerText = `S/. ${subExtra100.toFixed(2)}`;
+            document.getElementById('subtotal-feriado').innerText = `S/. ${subFeriado.toFixed(2)}`;
+
+            // Update Breakdown Panel
+            document.getElementById('summaryCategory').innerText = categoryNames[currentCategory];
+            
+            document.getElementById('sum-hrs-normal').innerText = hNormal;
+            document.getElementById('sum-val-normal').innerText = `S/. ${subNormal.toFixed(2)}`;
+
+            document.getElementById('sum-hrs-extra60').innerText = hExtra60;
+            document.getElementById('sum-val-extra60').innerText = `S/. ${subExtra60.toFixed(2)}`;
+
+            document.getElementById('sum-hrs-extra100').innerText = hExtra100;
+            document.getElementById('sum-val-extra100').innerText = `S/. ${subExtra100.toFixed(2)}`;
+
+            document.getElementById('sum-hrs-feriado').innerText = hFeriado;
+            document.getElementById('sum-val-feriado').innerText = `S/. ${subFeriado.toFixed(2)}`;
+
+            // Update Grand Total
+            document.getElementById('grandTotal').innerText = grandTotal.toLocaleString('es-PE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Copy Summary to WhatsApp
+        function copyToClipboard() {
+            const baseRate = baseRates[currentCategory];
+            const hNormal = getNum('hrsNormal');
+            const hExtra60 = getNum('hrsExtra60');
+            const hExtra100 = getNum('hrsExtra100');
+            const hFeriado = getNum('hrsFeriado');
+
+            const subNormal = hNormal * baseRate;
+            const subExtra60 = hExtra60 * (baseRate * 1.60);
+            const subExtra100 = hExtra100 * (baseRate * 2.00);
+            const subFeriado = hFeriado * (baseRate * 2.00);
+
+            const grandTotal = subNormal + subExtra60 + subExtra100 + subFeriado;
+
+            let msg = `🏗️ *REPORTES DE HORAS HOMBRE*\n`;
+            msg += `📋 *Categoría:* ${categoryNames[currentCategory]}\n`;
+            msg += `-----------------------------------\n`;
+            if (hNormal > 0) msg += `⏱️ *H. Normales:* ${hNormal}h ➔ S/. ${subNormal.toFixed(2)}\n`;
+            if (hExtra60 > 0) msg += `⚡ *H. Extras 60%:* ${hExtra60}h ➔ S/. ${subExtra60.toFixed(2)}\n`;
+            if (hExtra100 > 0) msg += `🔥 *H. Extras 100%:* ${hExtra100}h ➔ S/. ${subExtra100.toFixed(2)}\n`;
+            if (hFeriado > 0) msg += `📅 *Feriado/Domingo:* ${hFeriado}h ➔ S/. ${subFeriado.toFixed(2)}\n`;
+            msg += `-----------------------------------\n`;
+            msg += `💰 *TOTAL GENERAL:* *S/. ${grandTotal.toFixed(2)}*`;
+
+            const tempArea = document.createElement('textarea');
+            tempArea.value = msg;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempArea);
+
+            showToast('¡Resumen copiado para WhatsApp!');
+        }
+
+        // Notification Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
